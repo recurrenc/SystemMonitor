@@ -1,0 +1,17 @@
+{
+  "name": "system_admin",
+  "version": "1.0.0",
+  "description": "To monitor system performance ",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Electron",
+    "system",
+    "admin",
+    "Monitor"
+  ],
+  "author": "Sonu Kumar",
+  "license": "ISC"
+}
