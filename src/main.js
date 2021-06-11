@@ -1,50 +1,37 @@
 const { app, BrowserWindow } = require("electron");
-// const { Notification } = require("electron");
+const os = require("os");
 
-//Notification
+const path = require("path");
 
-const NOTIFICATION_TITLE = "Basic Notification";
-const NOTIFICATION_BODY = "Notification from the Main process";
-
-// function showNotification() {
-//   new Notification({
-//     title: NOTIFICATION_TITLE,
-//     body: NOTIFICATION_BODY,
-//   }).show();
-// }
-
-let progressInterval;
-
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 800,
+const createWindwo = () => {
+  // create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 1000,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
-  win.loadFile(__dirname + "/index.html");
+  mainWindow.loadFile(path.join(__dirname, "index.html"));
 
-  const INCREMENT = 0.4;
-  const INTERVAL_DELAY = 10000; // ms
+  mainWindow.webContents.openDevTools();
 
-  let c = 0;
-  progressInterval = setInterval(() => {
-    // update progress bar to next value
-    // values between 0 and 1 will show progress, >1 will show indeterminate or stick at 100%
-    win.setProgressBar(c);
+  const totalmem = (os.totalmem() / 1024 / 1024 / 1024).toFixed(3);
+  // console.log(totalmem);
 
-    // increment or reset progress bar
-    if (c < 2) c += INCREMENT;
-    else c = 0;
-  }, INTERVAL_DELAY);
-}
+  let memuses = Array(10).fill("");
+  // setInterval(() => {
+  const freeMem = (os.freemem() / 1024 / 1024 / 1024).toFixed(3);
+  memuses.unshift((totalmem - freeMem).toFixed(3));
+  memuses.pop();
+  mainWindow.webContents.send("memuses", (totalmem - freeMem).toFixed(3));
+  mainWindow.webContents.send("freeMem", freeMem);
+  // if (memuses.length >= 5) console.log(memuses);
+  // }, 1000);
+};
 
-app.whenReady().then(createWindow);
-
-// before the app is terminated, clear both timers
-app.on("before-quit", () => {
-  clearInterval(progressInterval);
-});
-
+app.on("ready", createWindwo);
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
@@ -53,6 +40,6 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createWindwo();
   }
 });

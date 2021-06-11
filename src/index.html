@@ -3,22 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
+    <!-- <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
     />
     <meta
       http-equiv="X-Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
-    />
-    <title>Hello World!</title>
+    /> -->
+    <title>System Monitor</title>
+    <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using a Node.js <span id="node-version"></span>, Chromium
-    <span id="chrome-version"></span>, and Electron
-    <span id="electron-version"></span>.
+    <div class="title">
+      <h1>System Monitor</h1>
+    </div>
 
-    <script src="renderer.js"></script>
+    <div id="memuses"></div>
+    <div id="freemem"></div>
+
+    <script>
+      const electron = require("electron");
+      const ipcRenderer = electron.ipcRenderer;
+
+      ipcRenderer.on("memuses", (event, data) => {
+        document.getElementById("memuses").innerHTML = data.toFixed(2);
+        console.log("Memory Uses: " + data);
+      });
+      ipcRenderer.on("freeMem", (event, data) => {
+        document.getElementById("freemem").innerHTML = data.toFixed(2);
+        console.log("Free Memory: " + data);
+      });
+    </script>
   </body>
 </html>
