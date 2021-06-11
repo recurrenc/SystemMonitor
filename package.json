@@ -2,7 +2,7 @@
   "name": "system_admin",
   "version": "1.0.0",
   "description": "To monitor system performance ",
-  "main": "main.js",
+  "main": "./src/main.js",
   "scripts": {
     "start": "electron ."
   },

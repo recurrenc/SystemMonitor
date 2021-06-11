@@ -1,17 +1,17 @@
 const { app, BrowserWindow } = require("electron");
-const { Notification } = require("electron");
+// const { Notification } = require("electron");
 
 //Notification
 
 const NOTIFICATION_TITLE = "Basic Notification";
 const NOTIFICATION_BODY = "Notification from the Main process";
 
-function showNotification() {
-  new Notification({
-    title: NOTIFICATION_TITLE,
-    body: NOTIFICATION_BODY,
-  }).show();
-}
+// function showNotification() {
+//   new Notification({
+//     title: NOTIFICATION_TITLE,
+//     body: NOTIFICATION_BODY,
+//   }).show();
+// }
 
 let progressInterval;
 
@@ -21,10 +21,10 @@ function createWindow() {
     height: 600,
   });
 
-  win.loadFile("index.html");
+  win.loadFile(__dirname + "/index.html");
 
-  const INCREMENT = 0.03;
-  const INTERVAL_DELAY = 100; // ms
+  const INCREMENT = 0.4;
+  const INTERVAL_DELAY = 10000; // ms
 
   let c = 0;
   progressInterval = setInterval(() => {
@@ -38,7 +38,7 @@ function createWindow() {
   }, INTERVAL_DELAY);
 }
 
-app.whenReady().then(createWindow).then(showNotification);
+app.whenReady().then(createWindow);
 
 // before the app is terminated, clear both timers
 app.on("before-quit", () => {
