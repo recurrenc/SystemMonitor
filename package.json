@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^5.0.0-beta1",
     "electron-is-dev": "^1.2.0",
+    "os-utils": "0.0.14",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
@@ -22,8 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron:start": "wait-on tcp:3000 && electron .",
-    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm electron:start\"",
-    "electron:build": "npm build && electron-builder -c.extraMetadata.main=build/main.js"
+    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
+    "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js"
   },
   "build": {
     "extends": null,
